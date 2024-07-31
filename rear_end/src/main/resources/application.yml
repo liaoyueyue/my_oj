@@ -1,0 +1,32 @@
+# 自定义配置
+jwt:
+  header-key: Authorization #TOKEN_HEADER_KEY JWT请求头KEY
+
+# SpringBoot配置
+server:
+  port: 8082
+
+spring:
+  profiles:
+    active: dev
+  config:
+    import: classpath:oss-config.yml
+
+  # 文件上传大小限制
+  servlet:
+    multipart:
+      max-file-size: 5MB
+      max-request-size: 5MB
+
+mybatis:
+  mapper-locations: classpath:mapper/**Mapper.xml
+  configuration:
+    log-impl: org.apache.ibatis.logging.stdout.StdOutImpl
+    map-underscore-to-camel-case: true
+
+pagehelper:
+  helper-dialect: mysql
+  reasonable: true
+  support-methods-arguments: true
+  params: count=countSql
+
