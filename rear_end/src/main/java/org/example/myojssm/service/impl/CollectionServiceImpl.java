@@ -26,13 +26,13 @@ public class CollectionServiceImpl implements CollectionService {
 
     @Override
     public Result addCollection(Collection collection) {
-        return collectionMapper.insertCollection(collection) > 0 ? Result.success() : Result.fail("添加合集失败");
+        return collectionMapper.insertCollection(collection) > 0 ? Result.success() : Result.error("添加合集失败");
     }
 
     @Override
     public Result getCollectionList(Integer pageNum, Integer pageSize, String collectionName) {
         if (pageNum < 1 || pageSize > 20) {
-            return Result.fail("Illegal parameters");
+            return Result.error("Illegal parameters");
         }
         PageHelper.startPage(pageNum, pageSize);
         List<Collection> collections = collectionMapper.queryCollectionListByName(collectionName);
@@ -44,18 +44,18 @@ public class CollectionServiceImpl implements CollectionService {
     public Result getCollectionById(int id) {
         Collection collection = collectionMapper.queryCollectionById(id);
         if (collection == null) {
-            return Result.fail("Classification not found");
+            return Result.error("Classification not found");
         }
         return Result.success(collection);
     }
 
     @Override
     public Result updateCollection(Collection collection) {
-        return collectionMapper.updateCollectionById(collection) > 0 ? Result.success() : Result.fail();
+        return collectionMapper.updateCollectionById(collection) > 0 ? Result.success() : Result.error();
     }
 
     @Override
     public Result deleteCollection(int id) {
-        return collectionMapper.deleteCollectionById(id) > 0 ? Result.success() : Result.fail("删除失败，请检查合集编号");
+        return collectionMapper.deleteCollectionById(id) > 0 ? Result.success() : Result.error("删除失败，请检查合集编号");
     }
 }

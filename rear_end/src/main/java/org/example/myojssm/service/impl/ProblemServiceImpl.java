@@ -48,13 +48,13 @@ public class ProblemServiceImpl implements ProblemService {
 
     @Override
     public Result addProblem(Problem problem) {
-        return problemMapper.insertProblem(problem) > 0 ? Result.success() : Result.fail();
+        return problemMapper.insertProblem(problem) > 0 ? Result.success() : Result.error();
     }
 
     @Override
     public Result getProblemList(Integer pageNum, Integer pageSize, String collectionName, String level) {
         if (pageNum < 1 || pageSize > 20) {
-            return Result.fail("Illegal parameters");
+            return Result.error("Illegal parameters");
         }
         PageHelper.startPage(pageNum, pageSize);
         List<ProblemVo> problems = problemMapper.queryProblemListByColAndLevel(collectionName, level);
@@ -65,13 +65,13 @@ public class ProblemServiceImpl implements ProblemService {
     @Override
     public Result deleteProblem(int id) {
         if (id <= 0) {
-            return Result.fail();
+            return Result.error();
         }
-        return problemMapper.deleteProblemById(id) > 0 ? Result.success() : Result.fail();
+        return problemMapper.deleteProblemById(id) > 0 ? Result.success() : Result.error();
     }
 
     @Override
     public Result updateProblem(Problem problem) {
-        return problemMapper.updateProblemById(problem) > 0 ? Result.success() : Result.fail();
+        return problemMapper.updateProblemById(problem) > 0 ? Result.success() : Result.error();
     }
 }

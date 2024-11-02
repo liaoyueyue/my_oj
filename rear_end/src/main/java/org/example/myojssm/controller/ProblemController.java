@@ -53,6 +53,6 @@ public class ProblemController {
     @GetMapping("/detail")
     public Result showProblemById(@RequestParam @NotNull int id) {
         Problem problem = problemservice.queryProblemById(id);
-        return problem != null ? Result.success(problem) : Result.fail();
+        return problem != null ? Result.success(problem) : Result.error();
     }
 }
