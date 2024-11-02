@@ -1,6 +1,5 @@
 package org.example.myojssm.service.impl;
 
-import org.example.myojssm.common.Result;
 import org.example.myojssm.common.utils.AliyunOSSUtil;
 import org.example.myojssm.common.utils.JWTUtil;
 import org.example.myojssm.common.utils.ThreadLocalUtil;
@@ -39,9 +38,9 @@ public class UserServiceImpl implements UserService {
     private AliyunOSSUtil aliyunOSSUtil;
 
     @Override
-    public Result login(String account, String password) {
+    public String login(String account, String password) {
         // 判断用户有效和密码是否正确
-        User user = userMapper.queryUserByEmailOrUsername(account);
+        User user = userMapper.findUserByEmailOrUsername(account);
         if (user != null) {
             // 有效用户判断密码
             if (user.getPassword().equals(password)) {
@@ -53,50 +52,55 @@ public class UserServiceImpl implements UserService {
                 // 把 token 存储到 redis
                 ValueOperations<String, String> operations = stringRedisTemplate.opsForValue();
                 operations.set(user.getUsername(), token, 1, TimeUnit.HOURS);
-                return Result.success(token);
+                return token;
             }
         }
-        return Result.fail("登录失败，请检查账号或者密码");
+        return null;
     }
 
     @Override
-    public Result register(String email, String password, String nickname) {
+    public String register(String email, String password, String nickname) {
         String uniqueUsername = UniqueUsernameUtil.getUsername(nickname);
         User user = new User(null, uniqueUsername, password, nickname, email, null, null, null);
-        return userMapper.insertUser(user) > 0 ? Result.success(uniqueUsername) : Result.fail("用户名存在");
+        return userMapper.insertUser(user) > 0 ? uniqueUsername : null;
     }
 
     @Override
     public User queryUserByUsername(String username) {
-        return userMapper.queryUserByUsername(username);
+        return userMapper.findUserByUsername(username);
     }
 
     @Override
     public User queryUserById(int id) {
-        return userMapper.queryUserById(id);
+        return userMapper.findUserById(id);
     }
 
     @Override
     public boolean queryUsernameExist(String username) {
-        return userMapper.queryUsernameExist(username) > 0;
+        return userMapper.findUsernameExist(username) > 0;
     }
 
     @Override
     public boolean queryEmailExist(String email) {
-        return userMapper.queryEmailExist(email) > 0;
+        return userMapper.findEmailExist(email) > 0;
     }
 
     @Override
-    public Result updateUserInfo(User user) {
-        user.setId(getUserId());
-        return userMapper.updateUser(user) > 0 ? Result.success() : Result.fail("Update failed");
+    public User updateUserInfo(User user) {
+        User existingUser = userMapper.findUserById(user.getId());
+        if (existingUser != null) {
+            user.setId(getUserId());
+            userMapper.updateUser(user);
+            return user;
+        }
+        return null;
     }
 
     // 允许上传文件(图片)的格式
     private static final String[] IMAGE_TYPE = new String[]{".bmp", ".jpg", ".jpeg", ".png"};
 
     @Override
-    public Result updateAvatar(MultipartFile avatarFile) {
+    public String updateAvatar(MultipartFile avatarFile) {
         // 1. 保存图片到 OSS
         String newAvatarURL = fileUploadService.uploadImage(avatarFile);
         // 2. 在 OSS 中删除用户旧头像
@@ -107,28 +111,28 @@ public class UserServiceImpl implements UserService {
             aliyunOSSUtil.delete("avatar", oldAvatarFileName);
         }
         // 3. 更新数据库用户头像地址, 返回新头像地址
-        return userMapper.updateAvatar(newAvatarURL, loginUser.getId()) > 0 ? Result.success(newAvatarURL) : Result.fail("Update failed");
+        userMapper.updateAvatar(newAvatarURL, loginUser.getId());
+        return newAvatarURL;
     }
 
     @Override
-    public Result updatePwd(String oldPwd, String newPwd, String oldToken) {
+    public String updatePwd(String oldPwd, String newPwd, String oldToken) {
         User loginUser = getUserInfo();
         if (oldPwd.equals(newPwd)) {
-            return Result.fail("The old password is the same as the new password");
+            return "旧密码与新密码相同";
         }
         if (!loginUser.getPassword().equals(oldPwd)) { // 密码没有加密，这里简单判断
-            return Result.fail("Update failed, Check old password");
+            return "更新失败，请检查旧密码";
         }
         if (userMapper.updatePwd(loginUser.getId(), newPwd) > 0) {
             stringRedisTemplate.delete(loginUser.getUsername()); // 删除旧 token
-            return Result.success();
         }
-        return Result.fail("Update failed");
+        return null;
     }
 
     @Override
     public User getUserInfo() {
-        return userMapper.queryUserById(getUserId());
+        return userMapper.findUserById(getUserId());
     }
 
     @Override

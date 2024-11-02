@@ -5,7 +5,7 @@
 <mapper namespace="org.example.myojssm.mapper.UserMapper">
 
     <resultMap id="BaseResultMap" type="org.example.myojssm.entity.User">
-        <id column="id" property="id" />
+        <id column="id" property="id"/>
         <result column="username" property="username"/>
         <result column="password" property="password"/>
         <result column="nickname" property="nickname"/>
@@ -37,33 +37,33 @@
             update_time = now()
         where id = #{id}
     </update>
-    <select id="queryUserByUsername" resultMap="BaseResultMap">
+    <select id="findUserByUsername" resultMap="BaseResultMap">
         select *
         from user
         where username = #{username};
     </select>
-    <select id="queryUserById" resultMap="BaseResultMap">
+    <select id="findUserById" resultMap="BaseResultMap">
         select *
         from user
         where id = #{id};
     </select>
-    <select id="queryUserByEmail" resultMap="BaseResultMap">
+    <select id="findUserByEmail" resultMap="BaseResultMap">
         select *
         from user
         where email = #{email};
     </select>
-    <select id="queryUserByEmailOrUsername" resultMap="BaseResultMap">
+    <select id="findUserByEmailOrUsername" resultMap="BaseResultMap">
         select *
         from user
         where email = #{account}
            or username = #{account};
     </select>
-    <select id="queryUsernameExist" resultType="java.lang.Integer">
+    <select id="findUsernameExist" resultType="java.lang.Integer">
         select count(*)
         from user
         where username = #{username};
     </select>
-    <select id="queryEmailExist" resultType="java.lang.Integer">
+    <select id="findEmailExist" resultType="java.lang.Integer">
         select count(*)
         from user
         where email = #{email};

@@ -38,6 +38,8 @@ public interface UserMapper {
     int updateAvatar(@Param("avatarURL") String avatarURL, @Param("id") Integer id);
 
     /**
+     * 更新用户密码
+     *
      * @param id     用户编号
      * @param newPwd 新密码
      * @return 数据库影响行数
@@ -50,7 +52,7 @@ public interface UserMapper {
      * @param username 用户名
      * @return 用户实体
      */
-    User queryUserByUsername(@Param("username") String username);
+    User findUserByUsername(@Param("username") String username);
 
     /**
      * 查询用户使用编号
@@ -58,7 +60,7 @@ public interface UserMapper {
      * @param id 编号
      * @return 用户实体
      */
-    User queryUserById(@Param("id") Integer id);
+    User findUserById(@Param("id") Integer id);
 
     /**
      * 使用 email 查询用户
@@ -66,7 +68,7 @@ public interface UserMapper {
      * @param email 邮箱
      * @return email 对应用户信息
      */
-    User queryUserByEmail(@Param("email") String email);
+    User findUserByEmail(@Param("email") String email);
 
     /**
      * 使用 username 或者 email  查询用户
@@ -74,7 +76,7 @@ public interface UserMapper {
      * @param account 邮箱或者用户名
      * @return username 或者 email 对应用户信息
      */
-    User queryUserByEmailOrUsername(@Param("account") String account);
+    User findUserByEmailOrUsername(@Param("account") String account);
 
     /**
      * 查询用户名是否已经存在
@@ -82,7 +84,7 @@ public interface UserMapper {
      * @param username 用户名
      * @return 数据库影响行数
      */
-    int queryUsernameExist(@Param("username") String username);
+    int findUsernameExist(@Param("username") String username);
 
     /**
      * 查询邮箱是否已经存在
@@ -90,7 +92,7 @@ public interface UserMapper {
      * @param email 邮箱
      * @return 数据库影响行数
      */
-    int queryEmailExist(@Param("email") String email);
+    int findEmailExist(@Param("email") String email);
 }
 
 

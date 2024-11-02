@@ -19,7 +19,7 @@ public interface UserService {
      * @param password 用户密码
      * @return token - JWT令牌
      */
-    Result login(String account, String password);
+    String login(String account, String password);
 
     /**
      * 用户注册
@@ -29,7 +29,7 @@ public interface UserService {
      * @param nickname 昵称
      * @return 新用户的用户名
      */
-    Result register(String email, String password, String nickname);
+    String register(String email, String password, String nickname);
 
     /**
      * 查询用户使用用户名
@@ -63,17 +63,17 @@ public interface UserService {
      * 更新用户信息
      *
      * @param user 用户实体
-     * @return 是否更新成功
+     * @return 更新后的用户
      */
-    Result updateUserInfo(User user);
+    User updateUserInfo(User user);
 
     /**
      * 更新用户头像
      *
      * @param avatarFile 头像文件
-     * @return 是否更新成功
+     * @return 更新后的用户头像地址
      */
-    Result updateAvatar(MultipartFile avatarFile);
+    String updateAvatar(MultipartFile avatarFile);
 
     /**
      * 更新用户密码
@@ -81,13 +81,13 @@ public interface UserService {
      * @param oldPwd 旧密码
      * @param newPwd 新密码
      * @param oldToken 旧 token
-     * @return 是否更新成功
+     * @return 更新错误信息
      */
-    Result updatePwd(String oldPwd, String newPwd, String oldToken);
+    String updatePwd(String oldPwd, String newPwd, String oldToken);
 
     /**
      * 获取当前用户信息
-     * @return 对应用户信息
+     * @return 当前用户信息
      */
     User getUserInfo();
 
