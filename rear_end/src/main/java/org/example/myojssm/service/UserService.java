@@ -1,6 +1,5 @@
 package org.example.myojssm.service;
 
-import org.example.myojssm.common.Result;
 import org.example.myojssm.entity.User;
 import org.springframework.web.multipart.MultipartFile;
 

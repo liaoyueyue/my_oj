@@ -1,6 +1,5 @@
 package org.example.myojssm.service;
 
-import org.example.myojssm.common.Result;
 import org.example.myojssm.entity.PageBean;
 import org.example.myojssm.entity.Problem;
 import org.example.myojssm.entity.vo.ProblemVo;
