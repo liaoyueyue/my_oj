@@ -61,6 +61,9 @@ public class UserServiceImpl implements UserService {
     @Override
     public String register(String email, String password, String nickname) {
         String uniqueUsername = UniqueUsernameUtil.getUsername(nickname);
+        while (queryUsernameExist(uniqueUsername)) {
+            uniqueUsername = UniqueUsernameUtil.getUsername(nickname);
+        }
         User user = new User(null, uniqueUsername, password, nickname, email, null, null, null);
         return userMapper.insertUser(user) > 0 ? uniqueUsername : null;
     }

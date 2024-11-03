@@ -15,7 +15,8 @@ import org.springframework.web.multipart.MultipartFile;
 public interface UserService {
     /**
      * 用户登录
-     * @param account 用户账号
+     *
+     * @param account  用户账号
      * @param password 用户密码
      * @return token - JWT令牌
      */
@@ -32,14 +33,16 @@ public interface UserService {
     String register(String email, String password, String nickname);
 
     /**
-     * 查询用户使用用户名
+     * 查询用户-使用用户名
+     *
      * @param username 用户名
      * @return 用户实体
      */
     User queryUserByUsername(String username);
 
     /**
-     * 查询用户使用编号
+     * 查询用户-使用编号
+     *
      * @param id 编号
      * @return 用户实体
      */
@@ -47,6 +50,7 @@ public interface UserService {
 
     /**
      * 查询用户名是否已经存在
+     *
      * @param username 用户名
      * @return 数据库影响行数
      */
@@ -54,6 +58,7 @@ public interface UserService {
 
     /**
      * 查询邮箱是否存在
+     *
      * @param email 邮箱
      * @return 是否存在邮箱
      */
@@ -78,8 +83,8 @@ public interface UserService {
     /**
      * 更新用户密码
      *
-     * @param oldPwd 旧密码
-     * @param newPwd 新密码
+     * @param oldPwd   旧密码
+     * @param newPwd   新密码
      * @param oldToken 旧 token
      * @return 更新错误信息
      */
@@ -87,12 +92,14 @@ public interface UserService {
 
     /**
      * 获取当前用户信息
+     *
      * @return 当前用户信息
      */
     User getUserInfo();
 
     /**
      * 获取当前用户编号 从线程
+     *
      * @return 用户编号
      */
     Integer getUserId();
