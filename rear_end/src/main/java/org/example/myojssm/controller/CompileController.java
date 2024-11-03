@@ -14,7 +14,6 @@ import org.example.myojssm.entity.Task;
 import org.example.myojssm.service.ProblemService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
 
 
@@ -43,7 +42,7 @@ public class CompileController {
     }
 
     @PostMapping("/compile")
-    public Result compileProblem(HttpServletRequest req, HttpServletResponse resp, @NotNull int id, @NotNull String code) {
+    public Result<CompileResponse> compileProblem(HttpServletRequest req, HttpServletResponse resp, @NotNull int id, @NotNull String code) {
         System.out.println("------" + id + code);
         CompileRequest compileRequest = null;
         CompileResponse compileResponse = new CompileResponse();

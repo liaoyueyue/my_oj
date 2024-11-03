@@ -25,37 +25,30 @@ public class CollectionServiceImpl implements CollectionService {
     private CollectionMapper collectionMapper;
 
     @Override
-    public Result addCollection(Collection collection) {
-        return collectionMapper.insertCollection(collection) > 0 ? Result.success() : Result.error("添加合集失败");
+    public Boolean addCollection(Collection collection) {
+        return collectionMapper.insertCollection(collection) > 0;
     }
 
     @Override
-    public Result getCollectionList(Integer pageNum, Integer pageSize, String collectionName) {
-        if (pageNum < 1 || pageSize > 20) {
-            return Result.error("Illegal parameters");
-        }
+    public PageBean<Collection> getCollectionList(Integer pageNum, Integer pageSize, String collectionName) {
         PageHelper.startPage(pageNum, pageSize);
         List<Collection> collections = collectionMapper.queryCollectionListByName(collectionName);
         Page<Collection> page = (Page<Collection>) collections;
-        return Result.success(new PageBean<>(page.getTotal(), page.getResult()));
+        return new PageBean<>(page.getTotal(), page.getResult());
     }
 
     @Override
-    public Result getCollectionById(int id) {
-        Collection collection = collectionMapper.queryCollectionById(id);
-        if (collection == null) {
-            return Result.error("Classification not found");
-        }
-        return Result.success(collection);
+    public Collection getCollectionById(int id) {
+        return collectionMapper.queryCollectionById(id);
     }
 
     @Override
-    public Result updateCollection(Collection collection) {
-        return collectionMapper.updateCollectionById(collection) > 0 ? Result.success() : Result.error();
+    public Boolean updateCollection(Collection collection) {
+        return collectionMapper.updateCollectionById(collection) > 0;
     }
 
     @Override
-    public Result deleteCollection(int id) {
-        return collectionMapper.deleteCollectionById(id) > 0 ? Result.success() : Result.error("删除失败，请检查合集编号");
+    public Boolean deleteCollection(int id) {
+        return collectionMapper.deleteCollectionById(id) > 0;
     }
 }

@@ -1,7 +1,7 @@
 package org.example.myojssm.service;
 
-import org.example.myojssm.common.Result;
 import org.example.myojssm.entity.Collection;
+import org.example.myojssm.entity.PageBean;
 
 /**
  * Created with IntelliJ IDEA.
@@ -17,7 +17,7 @@ public interface CollectionService {
      * @param collection 合集实体
      * @return 是否成功添加
      */
-    Result addCollection(Collection collection);
+    Boolean addCollection(Collection collection);
 
     /**
      * 获取合集列表
@@ -27,23 +27,23 @@ public interface CollectionService {
      * @param collectionName 合集名称
      * @return 符合条件合集列表
      */
-    Result getCollectionList(Integer pageNum, Integer pageSize, String collectionName);
+    PageBean<Collection> getCollectionList(Integer pageNum, Integer pageSize, String collectionName);
 
     /**
-     * 查询合集使用编号
+     * 查询合集-使用编号
      *
      * @param id 合集编号
      * @return 编号对应合集
      */
-    Result getCollectionById(int id);
+    Collection getCollectionById(int id);
 
     /**
-     * 更新合集使用编号
+     * 更新合集-使用编号
      *
      * @param collection 合集实体
      * @return 是否更新成功
      */
-    Result updateCollection(Collection collection);
+    Boolean updateCollection(Collection collection);
 
 
     /**
@@ -52,5 +52,5 @@ public interface CollectionService {
      * @param id 合集编号
      * @return 是否删除成功
      */
-    Result deleteCollection(int id);
+    Boolean deleteCollection(int id);
 }
