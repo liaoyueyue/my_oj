@@ -17,25 +17,25 @@ import org.springframework.web.bind.annotation.RestControllerAdvice;
 @RestControllerAdvice
 public class GlobalExceptionHandler {
     @ExceptionHandler(Exception.class)
-    public Result exceptionAdvice(Exception e) {
+    public Result<Void> exceptionAdvice(Exception e) {
         e.printStackTrace();
         return Result.error(StringUtils.hasLength(e.getMessage())?e.getMessage():"Operation failed");
     }
 
     @ExceptionHandler(NullPointerException.class)
-    public Result nullPointerExceptionAdvice(NullPointerException e) {
+    public Result<Void> nullPointerExceptionAdvice(NullPointerException e) {
         e.printStackTrace();
         return Result.error(StringUtils.hasLength(e.getMessage())?e.getMessage():"Operation failed");
     }
 
     @ExceptionHandler(ConstraintViolationException.class)
-    public Result constraintViolationExceptionAdvice(ConstraintViolationException e) {
+    public Result<Void> constraintViolationExceptionAdvice(ConstraintViolationException e) {
         e.printStackTrace();
         return Result.error(StringUtils.hasLength(e.getMessage())?"Illegal parameters":"Operation failed");
     }
 
     @ExceptionHandler(MethodArgumentNotValidException.class)
-    public Result methodArgumentNotValidExceptionAdvice(MethodArgumentNotValidException e) {
+    public Result<Void> methodArgumentNotValidExceptionAdvice(MethodArgumentNotValidException e) {
         e.printStackTrace();
         return Result.error(StringUtils.hasLength(e.getMessage())?"Illegal parameters":"Operation failed");
     }

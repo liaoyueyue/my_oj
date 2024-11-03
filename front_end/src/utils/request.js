@@ -23,7 +23,7 @@ axiosInstance.interceptors.request.use(
 // 添加响应拦截器
 axiosInstance.interceptors.response.use(
   (result) => {
-    if (result.data.code === 0) {
+    if (result.data.code === 200) {
       return result.data;
     }
     // 操作失败
