@@ -1,7 +1,9 @@
 package org.example.myojssm.service;
 
 import org.example.myojssm.common.Result;
+import org.example.myojssm.entity.PageBean;
 import org.example.myojssm.entity.Problem;
+import org.example.myojssm.entity.vo.ProblemVo;
 
 import java.util.List;
 
@@ -27,26 +29,11 @@ public interface ProblemService {
     Problem queryProblemById(Integer id);
 
     /**
-     * 查询指定等级的题目
-     * @param level 等级
-     * @return 对应等级的题目列表
-     */
-    List<Problem> queryAllByLevel(String level);
-
-    /**
-     * 查询所有题目通过一定标准
-     * @param level 等级
-     * @param title 题目
-     * @return 对应标准的题目
-     */
-    List<Problem> queryAllByCriteria(String level, String title);
-
-    /**
      * 添加题目
      * @param problem 题目实体
      * @return 是否添加成功
      */
-    Result addProblem(Problem problem);
+    Boolean addProblem(Problem problem);
 
     /**
      * 查询不同类别的题目库
@@ -57,19 +44,19 @@ public interface ProblemService {
      * @param level      题目等级
      * @return 题目分页实体
      */
-    Result getProblemList(Integer pageNum, Integer pageSize, String collectionName, String level);
+    PageBean<ProblemVo> getProblemList(Integer pageNum, Integer pageSize, String collectionName, String level);
 
     /**
      * 删除题目 通过编号
      * @param id 编号
      * @return 是否删除成功
      */
-    Result deleteProblem(int id);
+    Boolean deleteProblem(int id);
 
     /**
      * 更新题目
      * @param problem 题目实体类
      * @return 是否更新成功
      */
-    Result updateProblem(Problem problem);
+    Boolean updateProblem(Problem problem);
 }

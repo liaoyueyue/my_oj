@@ -37,41 +37,28 @@ public class ProblemServiceImpl implements ProblemService {
     }
 
     @Override
-    public List<Problem> queryAllByLevel(String level) {
-        return problemMapper.queryAllByLevel(level);
+    public Boolean addProblem(Problem problem) {
+        return problemMapper.insertProblem(problem) > 0;
     }
 
     @Override
-    public List<Problem> queryAllByCriteria(String level, String title) {
-        return problemMapper.queryAllByCriteria(level, title);
-    }
-
-    @Override
-    public Result addProblem(Problem problem) {
-        return problemMapper.insertProblem(problem) > 0 ? Result.success() : Result.error();
-    }
-
-    @Override
-    public Result getProblemList(Integer pageNum, Integer pageSize, String collectionName, String level) {
-        if (pageNum < 1 || pageSize > 20) {
-            return Result.error("Illegal parameters");
-        }
+    public PageBean<ProblemVo> getProblemList(Integer pageNum, Integer pageSize, String collectionName, String level) {
         PageHelper.startPage(pageNum, pageSize);
         List<ProblemVo> problems = problemMapper.queryProblemListByColAndLevel(collectionName, level);
         Page<ProblemVo> page = (Page<ProblemVo>) problems;
-        return Result.success(new PageBean<>(page.getTotal(), page.getResult()));
+        return new PageBean<>(page.getTotal(), page.getResult());
     }
 
     @Override
-    public Result deleteProblem(int id) {
+    public Boolean deleteProblem(int id) {
         if (id <= 0) {
-            return Result.error();
+            return false;
         }
-        return problemMapper.deleteProblemById(id) > 0 ? Result.success() : Result.error();
+        return problemMapper.deleteProblemById(id) > 0;
     }
 
     @Override
-    public Result updateProblem(Problem problem) {
-        return problemMapper.updateProblemById(problem) > 0 ? Result.success() : Result.error();
+    public Boolean updateProblem(Problem problem) {
+        return problemMapper.updateProblemById(problem) > 0;
     }
 }
